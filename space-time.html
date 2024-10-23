@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Understanding Space-Time | Journey into Space</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul class="navbar">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="universe.html">The Universe</a></li> 
+            <li><a href="solar-system.html">Solar System</a></li> 
+            <li><a href="stars.html">Stars</a></li>
+            <li><a href="galaxies.html">Galaxies</a></li>
+            <li><a href="black-holes.html">Black Holes</a></li>
+            <li><a href="space-exploration.html">Space Exploration</a></li>
+            <li><a href="exoplanets.html">Exoplanets</a></li>
+            <li><a href="space-time.html">Space-Time</a></li>
+            <li><a href="future-space.html">Future of Space</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <h1>What is Space-Time?</h1>
+        <p>Space-time is the fabric of the universe, where space and time are intertwined in a four-dimensional continuum. Discover how it shapes the cosmos!</p>
+    </header>
+
+    <!-- Visual Representation of Space-Time -->
+    <section class="space-time-visual">
+        <h2>The Fabric of Space-Time</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/GPB_circling_earth.jpg" alt="Space-Time Fabric" class="space-time-img" width="400" height="200" >
+        <p>Imagine space-time as a stretched fabric. Objects with mass, like planets and stars, create dents in this fabric, leading to gravitational effects. The greater the mass, the more pronounced the curvature.</p>
+    </section>
+
+    <!-- Interactive Section: Gravity Well -->
+    <section class="interactive-gravity">
+        <h2>Explore the Gravity Well</h2>
+        <canvas id="gravityCanvas" width="600" height="600"></canvas>
+        <p>Use your mouse to move around the canvas and simulate a mass bending space-time.</p>
+    </section>
+
+    <!-- Video on Space-Time -->
+    <section class="space-time-video">
+        <h2>Watch: The Concept of Space-Time</h2>
+        <video width="600" controls>
+            <source src="https://media.istockphoto.com/id/2156936332/video/3d-animation-of-the-distortion-of-spacetime-caused-by-gravity.mp4?s=mp4-640x640-is&k=20&c=8Za3dRhgW0JeeuynveCyLfaxUcbALMhiR5vBHdMEibE=" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Curious to know more? The mysteries of space-time continue to unravel as we explore the cosmos!</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('gravityCanvas');
+        const ctx = canvas.getContext('2d');
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height / 2;
+
+        function drawGravityWell(x, y) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const gradient = ctx.createRadialGradient(centerX, centerY, 50, centerX, centerY, 300);
+            gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, 300, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        canvas.addEventListener('mousemove', function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            drawGravityWell(x, y);
+        });
+
+        drawGravityWell(centerX, centerY);
+    </script>
+</body>
+</html>

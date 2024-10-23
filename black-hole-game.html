@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Black Hole Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        canvas {
+            display: block;
+            background: url('https://img.freepik.com/free-photo/glowing-sky-sphere-orbits-starry-galaxy-generated-by-ai_188544-15599.jpg') no-repeat center center/cover;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="score">Score: 0</div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let score = 0;
+
+        // Spaceship properties
+        const spaceship = {
+            x: 100,
+            y: canvas.height / 2,
+            width: 50,
+            height: 50,
+            speed: 5,
+            dx: 0,
+            dy: 0
+        };
+
+        // Black Hole properties
+        const blackHole = {
+            x: canvas.width - 100,
+            y: Math.random() * canvas.height,
+            radius: 40,
+            dx: -3
+        };
+
+        // Star properties
+        const star = {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: 20
+        };
+
+        // Load images
+        const spaceshipImg = new Image();
+        spaceshipImg.src = 'https://media.istockphoto.com/id/1249611748/vector/rocket-space-ship-launch.jpg?s=612x612&w=0&k=20&c=DMZ7gUIzBd34YjINjw_PKoLnos6Iq3VCqK3OYA-Uzsc=';
+
+        const blackHoleImg = new Image();
+        blackHoleImg.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUFpinK3Vvseu4KR0QrSESuYofB1IwuM2KsQ&s';
+
+        const starImg = new Image();
+        starImg.src = 'https://cdn-icons-png.flaticon.com/512/8212/8212616.png';
+
+        // Draw spaceship
+        function drawSpaceship() {
+            ctx.drawImage(spaceshipImg, spaceship.x, spaceship.y, spaceship.width, spaceship.height);
+        }
+
+        // Draw black hole
+        function drawBlackHole() {
+            ctx.drawImage(blackHoleImg, blackHole.x - blackHole.radius, blackHole.y - blackHole.radius, blackHole.radius * 2, blackHole.radius * 2);
+        }
+
+        // Draw star
+        function drawStar() {
+            ctx.drawImage(starImg, star.x, star.y, star.size, star.size);
+        }
+
+        // Update game objects
+        function update() {
+            // Move spaceship
+            spaceship.x += spaceship.dx;
+            spaceship.y += spaceship.dy;
+
+            // Ensure spaceship doesn't go off screen
+            if (spaceship.x < 0) spaceship.x = 0;
+            if (spaceship.x + spaceship.width > canvas.width) spaceship.x = canvas.width - spaceship.width;
+            if (spaceship.y < 0) spaceship.y = 0;
+            if (spaceship.y + spaceship.height > canvas.height) spaceship.y = canvas.height - spaceship.height;
+
+            // Move black hole
+            blackHole.x += blackHole.dx;
+            if (blackHole.x < 0) {
+                blackHole.x = canvas.width;
+                blackHole.y = Math.random() * canvas.height;
+            }
+
+            // Check for collision with star
+            if (
+                spaceship.x < star.x + star.size &&
+                spaceship.x + spaceship.width > star.x &&
+                spaceship.y < star.y + star.size &&
+                spaceship.y + spaceship.height > star.y
+            ) {
+                // Reset star position
+                star.x = Math.random() * canvas.width;
+                star.y = Math.random() * canvas.height;
+
+                // Increase score
+                score++;
+                document.getElementById('score').innerText = `Score: ${score}`;
+            }
+
+            // Check for collision with black hole
+            const distX = spaceship.x + spaceship.width / 2 - blackHole.x;
+            const distY = spaceship.y + spaceship.height / 2 - blackHole.y;
+            const distance = Math.sqrt(distX * distX + distY * distY);
+
+            if (distance < blackHole.radius + spaceship.width / 2) {
+                alert('Game Over! Your score: ' + score);
+                document.location.reload();
+            }
+        }
+
+        // Clear canvas
+        function clear() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Move spaceship based on keypress
+        function moveSpaceship(e) {
+            if (e.key === 'ArrowUp' || e.key === 'w') {
+                spaceship.dy = -spaceship.speed;
+            } else if (e.key === 'ArrowDown' || e.key === 's') {
+                spaceship.dy = spaceship.speed;
+            } else if (e.key === 'ArrowLeft' || e.key === 'a') {
+                spaceship.dx = -spaceship.speed;
+            } else if (e.key === 'ArrowRight' || e.key === 'd') {
+                spaceship.dx = spaceship.speed;
+            }
+        }
+
+        // Stop spaceship movement
+        function stopSpaceship(e) {
+            if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'ArrowDown' || e.key === 's') {
+                spaceship.dy = 0;
+            } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'ArrowRight' || e.key === 'd') {
+                spaceship.dx = 0;
+            }
+        }
+
+        // Game loop
+        function gameLoop() {
+            clear();
+            drawSpaceship();
+            drawBlackHole();
+            drawStar();
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Event listeners
+        window.addEventListener('keydown', moveSpaceship);
+        window.addEventListener('keyup', stopSpaceship);
+
+        gameLoop();
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Explore Space | Journey into Space</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul class="navbar">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="universe.html">The Universe</a></li> 
+            <li><a href="solar-system.html">Solar System</a></li> 
+            <li><a href="stars.html">Stars</a></li>
+            <li><a href="galaxies.html">Galaxies</a></li>
+            <li><a href="black-holes.html">Black Holes</a></li>
+            <li><a href="space-exploration.html">Space Exploration</a></li>
+            <li><a href="exoplanets.html">Exoplanets</a></li>
+            <li><a href="space-time.html">Space-Time</a></li>
+            <li><a href="future-space.html">Future of Space</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Explore Space with Us!</h1>
+        <p>Sign up and tell us your favorite space topics, and we'll help you explore the cosmos!</p>
+    </header>
+
+    <!-- Form Section -->
+    <section class="form-section">
+        <form class="space-form">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="topic">Favorite Space Topic:</label>
+            <select id="topic" name="topic">
+                <option value="solar-system">The Solar System</option>
+                <option value="black-holes">Black Holes</option>
+                <option value="exoplanets">Exoplanets</option>
+                <option value="galaxies">Galaxies</option>
+                <option value="space-exploration">Space Exploration</option>
+            </select>
+
+            <label for="message">Why do you love space?</label>
+            <textarea id="message" name="message" placeholder="Tell us why space fascinates you..." rows="4"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+</body>
+</html>
